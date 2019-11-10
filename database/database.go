@@ -8,7 +8,7 @@ import (
 
 func Connect() (*sql.DB, error) {
 	// Configure the database connection (always check errors)
-	db, err := sql.Open("mysql", "root:password@(127.0.0.1:3306)/makoy?parseTime=true")
+	db, err := sql.Open("mysql", "root:G0Str0ng@(34.89.190.230:3306)/hrdb?parseTime=true")
 
 	// Initialize the first connection to the database, to see if everything works correctly.
 	// Make sure to check the error.

@@ -3,9 +3,9 @@
 package main
 
 import (
-	"fmt"
 	"candidate-viewer/candidateutil"
 	"candidate-viewer/database"
+	"fmt"
 	"html/template"
 	"log"
 	"net/http"
