@@ -4,8 +4,8 @@ package main
 
 import (
 	"fmt"
-	"candidateutil"
-	"database"
+	"github.com/akoymakoy/candidate-viewer/candidateutil"
+	"github.com/akoymakoy/candidate-viewer/database"
 	"html/template"
 	"log"
 	"net/http"
@@ -33,7 +33,7 @@ func logging(next http.Handler) http.Handler {
 func index() http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
-	db := database.Connect()
+	db,err := database.Connect()
 	c := candidateutil.get(db)
 
 		b := struct {

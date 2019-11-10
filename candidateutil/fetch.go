@@ -11,7 +11,7 @@ type Candidate struct {
 	Name,Email   string
 }
 
-func get(db *sql.DB) Candidate {
+func Get(db *sql.DB) Candidate {
 
 
 	// Query a single user
