@@ -4,8 +4,8 @@ package main
 
 import (
 	"fmt"
-	"github.com/akoymakoy/candidate-viewer/candidateutil"
-	"github.com/akoymakoy/candidate-viewer/database"
+	"candidate-viewer/candidateutil"
+	"candidate-viewer/database"
 	"html/template"
 	"log"
 	"net/http"
