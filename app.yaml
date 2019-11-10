@@ -9,4 +9,8 @@ manual_scaling:
 resources:
   cpu: 1
   memory_gb: 0.5
-  disk_size_gb: 10 
+  disk_size_gb: 10
+env_variables:
+  MYSQL_DSN: mysql:unix_socket=/cloudsql/sincere-office-258503:europe-west3:hrdb;dbname=hrdb
+  MYSQL_USER: root
+  MYSQL_PASSWORD: 'G0Str0ng'

@@ -11,7 +11,7 @@ type Candidate struct {
 	Name,Email   string
 }
 
-func Get(db *sql.DB) Candidate {
+func Get(db *sql.DB,id int) Candidate {
 
 
 	// Query a single user
@@ -21,7 +21,7 @@ func Get(db *sql.DB) Candidate {
 	)
 
 	query := "SELECT id, name,email FROM candidates WHERE id = ?"
-	if err := db.QueryRow(query, 1).Scan(&Id, &Name, &Email); err != nil {
+	if err := db.QueryRow(query, id).Scan(&Id, &Name, &Email); err != nil {
 		log.Fatal(err)
 	}
 

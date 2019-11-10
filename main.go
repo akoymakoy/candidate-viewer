@@ -10,6 +10,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strconv"
 	"time"
 )
 
@@ -32,9 +33,19 @@ func logging(next http.Handler) http.Handler {
 // index is the handler responsible for rending the index page for the site.
 func index() http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		var id int
+		var err error
+		if r.Method == http.MethodPost {
+			id,err = strconv.Atoi(r.FormValue("Id"))
+			log.Print("SHITPOST")
+		}else{
+			id =1
+			log.Print("REQ")
+		}
 
-	db,err := database.Connect()
-	c := candidateutil.get(db)
+
+		db,err := database.Connect()
+		c := candidateutil.Get(db,id)
 
 		b := struct {
 			Title        template.HTML
@@ -46,7 +57,7 @@ func index() http.Handler {
 			Name:       c.Name,
 			Email:       c.Email,
 		}
-		err := templates.ExecuteTemplate(w, "base", &b)
+		templates.ExecuteTemplate(w, "base", &b)
 		if err != nil {
 			http.Error(w, fmt.Sprintf("index: couldn't parse template: %v", err), http.StatusInternalServerError)
 			return
