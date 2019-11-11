@@ -6,21 +6,21 @@ import (
 	"log"
 )
 
-func Connect() (*sql.DB, error) {
-	// Configure the database connection (always check errors)
-	db, err := sql.Open("mysql", "root:G0Str0ng@(34.89.190.230:3306)/hrdb?parseTime=true")
+var db *sql.DB
 
-	// Initialize the first connection to the database, to see if everything works correctly.
-	// Make sure to check the error.
+func Connect() (*sql.DB, error) {
+
+	// Set this in app.yaml when running in production.
+	datastoreName := "root:G0Str0ng@(127.0.0.1:3306)/hrdb"
+
+	log.Print("CONNECTING TO: ")
+	log.Print(datastoreName)
+	var err error
+	db, err = sql.Open("mysql", datastoreName)
 	if err != nil {
+		log.Print("CANT CONNECT")
 		log.Fatal(err)
-	}else{
-		log.Print("SUCCESS DB")
 	}
-	if err := db.Ping(); err != nil {
-		log.Fatal(err)
-	}else{
-		log.Print("SUCCESS DB2")
-	}
+
 	return db,err
 }

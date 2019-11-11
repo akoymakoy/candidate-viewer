@@ -37,10 +37,10 @@ func index() http.Handler {
 		var err error
 		if r.Method == http.MethodPost {
 			id,err = strconv.Atoi(r.FormValue("Id"))
-			log.Print("SHITPOST")
+			log.Print("POST")
 		}else{
 			id =1
-			log.Print("REQ")
+			log.Print("REQUEST INDEX")
 		}
 
 
@@ -71,10 +71,53 @@ func public() http.Handler {
 	return http.StripPrefix("/public/", http.FileServer(http.Dir("./public")))
 }
 
+//candidate view
+func profilepage(design int) http.Handler{
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		var id int
+		var err error
+		if r.Method == http.MethodPost {
+			id,err = strconv.Atoi(r.FormValue("Id"))
+			log.Print("POST")
+		}else{
+			id =1
+			log.Print("REQUEST VIEW1")
+		}
+		db,err := database.Connect()
+		c := candidateutil.Get(db,id)
+
+		b := struct {
+			Title        template.HTML
+			Id			 int
+			Name,Email   string
+		}{
+			Title:        template.HTML("Business &verbar; Landing"),
+			Id: 		c.Id,
+			Name:       c.Name,
+			Email:       c.Email,
+		}
+		if design == 1{
+			log.Print("GOING TO TEMPLATE 1")
+			templates.ExecuteTemplate(w, "template1", &b)
+		}else{
+			log.Print("GOING TO TEMPLATE 2")
+			templates.ExecuteTemplate(w, "template2", &b)
+		}
+		if err != nil {
+			http.Error(w, fmt.Sprintf("index: couldn't parse template: %v", err), http.StatusInternalServerError)
+			return
+		}
+		w.WriteHeader(http.StatusOK)
+	})
+}
+
 func main() {
+
 	mux := http.NewServeMux()
 	mux.Handle("/public/", logging(public()))
-	mux.Handle("/", logging(index()))
+	mux.Handle("/view1/", logging(profilepage(1)))
+	mux.Handle("/view2/", logging(profilepage(2)))
+	//mux.Handle("/", logging(index()))
 
 	port, ok := os.LookupEnv("PORT")
 	if !ok {
@@ -89,8 +132,12 @@ func main() {
 		WriteTimeout: 15 * time.Second,
 		IdleTimeout:  15 * time.Second,
 	}
-	log.Println("main: running simple server on port", port)
+
+	http.ListenAndServe(addr, mux)
+
 	if err := server.ListenAndServe(); err != nil {
 		log.Fatalf("main: couldn't start simple server: %v\n", err)
 	}
+
+
 }
