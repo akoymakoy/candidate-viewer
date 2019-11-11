@@ -2,29 +2,33 @@ package main
 
 
 import (
-    "html/template"
-    "log"
+	"candidate-viewer/candidateutil"
+	"github.com/gorilla/mux"
+	"html/template"
+	"log"
 	"net/http"
 	"time"
-     "github.com/gorilla/mux"
 )
+
 
 func CandidateProfileHandler(w http.ResponseWriter, r *http.Request) {
 	b := struct {
 			Title        template.HTML
 			Id,Javaskill			 int
 			Name,Email   string
+			Candidate candidateutil.Candidate
 		}{
-			Title:        template.HTML("Business &verbar; Landing"),
+			Title:        template.HTML("HRDB | Candidate Profile"),
 			Id: 		1,
 			Javaskill: 100,
 			Name:       "Mark Miraflor",
 			Email:       "mark.miraflor@luunax.com",
+			Candidate: candidateutil.Get(1),
 		}
 		
 	// Files are provided as a slice of strings.
 	paths := []string{
-		"templates/template1.tmpl",
+		"templates/profile.tmpl",
 	}
 
 	contactTmpl, _ := template.ParseFiles(paths...)
