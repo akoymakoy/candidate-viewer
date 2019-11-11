@@ -1,16 +1,16 @@
-{{define "template1"}}
-    <!doctype html>
+{{ define "layout" }}
+<!doctype html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" type="text/css" href="/public/assets/styles/template1.css">
+    <link rel="stylesheet" type="text/css" href="/css/template1.css">
     <title>{{.Name}}</title>
 </head>
 <body>
-<script type="text/javascript" src="/public/assets/scripts/template1.js"></script>
+<script type="text/javascript" src="/js/template1.js"></script>
 
 <div class="resume">
     <div class="base">
@@ -147,4 +147,4 @@
 </div>
 </body>
 </html>
-{{end}}
+{{ end }}
